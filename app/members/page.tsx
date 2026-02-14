@@ -1,7 +1,9 @@
 import Link from 'next/link'
-import React from 'react'
+import { auth } from '@/auth';
 
-const MembersPage = () => {
+const MembersPage = async() => {
+  const session = await auth();
+  console.log(session)
   return (
     <section>
         <h1 className='text-3xl'>MembersPage</h1>
