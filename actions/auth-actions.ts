@@ -46,7 +46,11 @@ export async function registerUser(
         passwordHash: hashedPassword,
       },
     });
-
+    const result = await signIn('credentials', {
+      email: data.email,
+      password: data.password,
+      redirect: false,
+    });
     return {
       status: 'success',
       data: user,
@@ -69,7 +73,6 @@ export async function signInUser(
       password: data.password,
       redirect: false,
     });
-    console.log(result);
     return {
       status: 'success',
       data: 'Logged in successfully',

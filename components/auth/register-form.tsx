@@ -22,8 +22,10 @@ import { Button } from '../ui/button';
 import { RegisterSchema, registerSchema } from '@/lib/schemas/register-schema';
 import { registerUser } from '@/actions/auth-actions';
 import { Loader } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 export default function RegisterForm() {
+  const router = useRouter();
   const {
     register,
     reset,
@@ -46,21 +48,23 @@ export default function RegisterForm() {
     const result = await registerUser(data);
     if (result.status === 'success') {
       toast.success('User registered successfully!');
-      toast('Register User successfully!', {
-        description: (
-          <pre className='bg-green-500 text-white mt-2 w-[320px] overflow-x-auto rounded-md p-4'>
-            <code>{JSON.stringify(data, null, 2)}</code>
-          </pre>
-        ),
-        position: 'bottom-right',
-        classNames: {
-          content: 'flex flex-col gap-2',
-        },
-        style: {
-          '--border-radius': 'calc(var(--radius)  + 4px)',
-        } as React.CSSProperties,
-      });
+      // toast('Register User successfully!', {
+      //   description: (
+      //     <pre className='bg-green-500 text-white mt-2 w-[320px] overflow-x-auto rounded-md p-4'>
+      //       <code>{JSON.stringify(data, null, 2)}</code>
+      //     </pre>
+      //   ),
+      //   position: 'bottom-right',
+      //   classNames: {
+      //     content: 'flex flex-col gap-2',
+      //   },
+      //   style: {
+      //     '--border-radius': 'calc(var(--radius)  + 4px)',
+      //   } as React.CSSProperties,
+      // });
+
       reset();
+      router.push('/members');
     } else if (result.status === 'error') {
       if (Array.isArray(result.error)) {
         result.error.forEach((err) => {

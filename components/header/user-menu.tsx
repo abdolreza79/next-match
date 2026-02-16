@@ -14,11 +14,14 @@ import Link from 'next/link';
 
 const UserMenu = async () => {
   const session = await auth();
+  if (!session?.user) {
+    return null;
+  }
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild className='size-10 rounded-full'>
         <Button className='rounded-full bg-white'>
-          <UserAvatar />
+          <UserAvatar user={session.user} />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>

@@ -1,15 +1,26 @@
-import Link from 'next/link'
-import { auth } from '@/auth';
+import { getMembers } from '@/actions/members-actions';
+import { MemberCard } from '@/components/member-card';
 
-const MembersPage = async() => {
-  const session = await auth();
-  console.log(session)
+const MembersPage = async () => {
+  const members = await getMembers();
+  if (!members) {
+    return (
+      <section className='text-3xl font-semibold text-gray-500'>
+        No members found
+      </section>
+    );
+  }
   return (
-    <section>
-        <h1 className='text-3xl'>MembersPage</h1>
-        <Link className='text-blue-500' href={'/'}>Home</Link>
+    <section className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-8'>
+      {members.map((member) => {
+        return (
+          <div key={member.id}>
+            <MemberCard member={member} />
+          </div>
+        );
+      })}
     </section>
-  )
-}
+  );
+};
 
-export default MembersPage
+export default MembersPage;

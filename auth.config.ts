@@ -6,7 +6,6 @@ import bcrypt from 'bcryptjs';
 import { loginSchema } from './lib/schemas/login-schema';
 import { getUserByEmail } from './actions/auth-actions';
 import { NextResponse } from 'next/server';
-import { redirect } from 'next/navigation';
 
 // Notice this is only an object, not a full Auth.js instance
 export const authConfig = {
@@ -37,6 +36,7 @@ export const authConfig = {
           id: user.id,
           name: user.name,
           email: user.email,
+          image: user.image,
         };
       },
     }),
@@ -45,6 +45,7 @@ export const authConfig = {
     async session({ session, token }) {
       if (session.user) {
         session.user.id = token.sub as string;
+        session.user.image = token.picture as string;
         // session.user.role = session.user.role;
       }
       return session;
@@ -52,6 +53,7 @@ export const authConfig = {
     async jwt({ token, user }) {
       if (user) {
         token.sub = user.id;
+        token.picture = user.image;
         // token.role = user.role;
       }
       return token;

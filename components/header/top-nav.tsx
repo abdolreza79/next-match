@@ -3,7 +3,6 @@ import NavLinks from './nav-links';
 import AuthButtons from './auth-buttons';
 import { auth, signOut } from '@/auth';
 import UserMenu from './user-menu';
-import { signOutUser } from '@/actions/auth-actions';
 
 const TopNav = async () => {
   const session = await auth();
