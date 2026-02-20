@@ -1,7 +1,5 @@
-import React from 'react'
+import ListTab from '@/components/lists/list-tab';
 
 export default function ListsPage() {
-  return (
-    <div>ListsPage</div>
-  )
+  return <ListTab />;
 }

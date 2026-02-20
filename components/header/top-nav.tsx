@@ -9,7 +9,7 @@ const TopNav = async () => {
   return (
     <nav className='flex items-center'>
       <Logo />
-      <div className='flex-1 flex items-center gap-4 '>
+      <div className='flex-1 hidden md:flex items-center gap-4 '>
         <NavLinks />
       </div>
       <div className='flex-1  flex  gap-2 items-center justify-end'>

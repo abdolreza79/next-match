@@ -63,6 +63,8 @@ model Member {
   userId      String   @unique
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   photos      Photo[]
+  sourceLikes Like[]   @relation("SourceMember") // The user who likes the target user
+  targetLikes Like[]   @relation("TargetMember") // The user who is being liked by the source user
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
@@ -83,3 +85,73 @@ model VerificationToken {
   @@unique([identifier, token])
   @@map("verification_tokens")
 }
+
+model Like {
+  id           String @id @default(cuid())
+  sourceUserId String // The user who likes the target user
+  sourceMember Member @relation("SourceMember", fields: [sourceUserId], references: [userId], onDelete: Cascade)
+  targetUserId String // The user who is being liked by the source user
+  targetMember Member @relation("TargetMember", fields: [targetUserId], references: [userId], onDelete: Cascade)
+
+  @@unique([sourceUserId, targetUserId])
+}
+
+//-------------------------------------- START DESIGN ------------------------------------------//
+
+// model User {
+//   id            String   @id @default(cuid())
+//   name          String?
+//   email         String?  @unique
+//   passwordHash  String
+
+//   profile       Profile?
+//   photos        Photo[]
+
+//   likesGiven    Like[]   @relation("GivenLikes")
+//   likesReceived Like[]   @relation("ReceivedLikes")
+
+//   createdAt     DateTime @default(now())
+//   updatedAt     DateTime @updatedAt
+// }
+
+// model Profile {
+//   userId      String   @id
+//   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+//   gender      String
+//   dateOfBirth DateTime
+//   description String
+//   city        String
+//   country     String
+
+//   createdAt   DateTime @default(now())
+//   updatedAt   DateTime @updatedAt
+// }
+
+// model Photo {
+//   id        String   @id @default(cuid())
+//   url       String
+//   publicId  String?
+//   order     Int      @default(0)   // ترتیب نمایش
+//   isMain    Boolean  @default(false) // عکس اصلی
+
+//   userId    String
+//   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+//   createdAt DateTime @default(now())
+
+//   @@index([userId])
+// }
+
+// model Like {
+//   sourceUserId String
+//   targetUserId String
+
+//   source User @relation("GivenLikes", fields: [sourceUserId], references: [id], onDelete: Cascade)
+//   target User @relation("ReceivedLikes", fields: [targetUserId], references: [id], onDelete: Cascade)
+
+//   createdAt DateTime @default(now())
+
+//   @@id([sourceUserId, targetUserId])
+// }
+// ------------------------------------- END OF DESIGN-------------------------------------------//

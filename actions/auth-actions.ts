@@ -1,7 +1,7 @@
 'use server';
 
 import { User } from '@/app/generated/prisma/client';
-import { signIn, signOut } from '@/auth';
+import { auth, signIn, signOut } from '@/auth';
 import { loginSchema, LoginSchema } from '@/lib/schemas/login-schema';
 import { registerSchema, RegisterSchema } from '@/lib/schemas/register-schema';
 import { prisma } from '@/prisma/prisma';
@@ -129,4 +129,11 @@ export async function getUserByEmail(email: string) {
       email,
     },
   });
+}
+
+export async function getAuthUserId() {
+  const session = await auth();
+  const userId = session?.user?.id;
+  if (!userId) throw new Error('Unauthorized');
+  return userId;
 }

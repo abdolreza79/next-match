@@ -1,9 +1,8 @@
 import { getMemberByUserId } from '@/actions/members-actions';
-import LoadingComponent from '@/components/loading-component';
 import MemberSidebar from '@/components/member-sidebar';
 import { Card } from '@/components/ui/card';
 import { notFound } from 'next/navigation';
-import React, { Suspense } from 'react';
+import React from 'react';
 
 export default async function layout({
   params,
